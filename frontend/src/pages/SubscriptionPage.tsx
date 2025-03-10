@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useForm, useFieldArray } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import StripeCheckout from '../components/StripeCheckout'
+import MPCheckout from '../components/MPCheckout'
 import EventTerms from '../components/EventTerms'
 const valores = {
   menor: 50,
@@ -75,9 +75,8 @@ export default function SubscriptionPage() {
     return (
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold text-center mb-8">Pagamento</h1>
-        <StripeCheckout
+        <MPCheckout
           amount={calculateTotal(formData.participants)}
-          participants={formData.participants}
         />
       </div>
     )

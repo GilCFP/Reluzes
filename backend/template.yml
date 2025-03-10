@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Mercado Pago Service
+
+Resources:
+  CreatePreferenceFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: createPreference.handler
+      Runtime: nodejs14.x
+      CodeUri: .
+      Environment:
+        Variables:
+          MERCADO_PAGO_ACCESS_TOKEN: 'APP_USR-20b76a63-09f8-4aa0-a048-6288e893092a'
+      Events:
+        CreatePreference:
+          Type: Api
+          Properties:
+            Path: /create-preference
+            Method: post
+
+Outputs:
+  CreatePreferenceApi:
+    Description: "API Gateway endpoint URL for CreatePreference function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/create-preference/"
