@@ -1,8 +1,26 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { PaymentService } from '../services/PaymentService';
 
 export default function PaymentError() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  
+  useEffect(() => {
+    // Get error info from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get('error') || '';
+    const errorDescription = urlParams.get('error_description') || 'Ocorreu um erro ao processar seu pagamento';
+    
+    setErrorMessage(errorDescription);
+    
+    // Note: we don't clear the pendingSubscription here so the user can try again
+  }, []);
+
+  const handleRetry = () => {
+    // Redirect back to subscription page to retry payment
+    navigate('/subscription');
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -17,12 +35,12 @@ export default function PaymentError() {
         
         <h2 className="text-2xl font-bold text-gray-900 mb-4">Erro no Pagamento</h2>
         <p className="text-gray-600 mb-6">
-          Ocorreu um erro ao processar seu pagamento. Por favor, tente novamente ou entre em contato com nosso suporte.
+          {errorMessage || "Ocorreu um erro ao processar seu pagamento. Por favor, tente novamente ou entre em contato com nosso suporte."}
         </p>
         
         <div className="space-y-4">
           <button
-            onClick={() => navigate(-1)}
+            onClick={handleRetry}
             className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
           >
             Tentar novamente
@@ -33,5 +51,5 @@ export default function PaymentError() {
         </div>
       </div>
     </div>
-  )
+  );
 }

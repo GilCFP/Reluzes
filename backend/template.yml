@@ -3,24 +3,66 @@ Transform: AWS::Serverless-2016-10-31
 Description: >
   Mercado Pago Service
 
+Globals:
+  Function:
+    Timeout: 10
+  Api:
+    Cors:
+      AllowMethods: "'*'"
+      AllowHeaders: "'*'"
+      AllowOrigin: "'*'"
+      AllowCredentials: "'true'"
+
 Resources:
   CreatePreferenceFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: createPreference.handler
-      Runtime: nodejs14.x
+      Handler: dist/createPreference.handler
+      Runtime: nodejs16.x
       CodeUri: .
       Environment:
         Variables:
-          MERCADO_PAGO_ACCESS_TOKEN: 'APP_USR-20b76a63-09f8-4aa0-a048-6288e893092a'
+          MERCADO_PAGO_ACCESS_TOKEN: 'APP_USR-589532436585879-030917-550054764c8d661214c74640ef09a648-2306200158'
+          SUCCESS_URL: 'http://localhost:5173/payment/success'
+          FAILURE_URL: 'http://localhost:5173/payment/error'
+          PENDING_URL: 'http://localhost:5173/payment/pending'
       Events:
         CreatePreference:
           Type: Api
           Properties:
             Path: /create-preference
             Method: post
+        OptionsPreference:
+          Type: Api
+          Properties:
+            Path: /create-preference
+            Method: options
+
+  VerifyPaymentFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dist/verifyPayment.handler
+      Runtime: nodejs16.x
+      CodeUri: .
+      Environment:
+        Variables:
+          MERCADO_PAGO_ACCESS_TOKEN: 'APP_USR-589532436585879-030917-550054764c8d661214c74640ef09a648-2306200158'
+      Events:
+        VerifyPayment:
+          Type: Api
+          Properties:
+            Path: /verify-payment
+            Method: post
+        OptionsVerify:
+          Type: Api
+          Properties:
+            Path: /verify-payment
+            Method: options
 
 Outputs:
   CreatePreferenceApi:
     Description: "API Gateway endpoint URL for CreatePreference function"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/create-preference/"
+  VerifyPaymentApi:
+    Description: "API Gateway endpoint URL for VerifyPayment function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/verify-payment/"

@@ -1,12 +1,12 @@
-import React from 'react'
-import { Routes, Route } from 'react-router-dom'
-import Navbar from './components/Navbar'
-import Footer from './components/Footer'
-import HomePage from './pages/HomePage'
-import SubscriptionPage from './pages/SubscriptionPage'
-import GalleryPage from './pages/GalleryPage'
-import PaymentSuccess from './components/PaymentSuccess'
-import PaymentError from './components/PaymentError'
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import HomePage from './pages/HomePage';
+import SubscriptionPage from './pages/SubscriptionPage';
+import GalleryPage from './pages/GalleryPage';
+import PaymentSuccess from './components/PaymentSuccess';
+import PaymentError from './components/PaymentError';
 
 function App() {
   return (
@@ -17,13 +17,13 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/inscricao" element={<SubscriptionPage />} />
           <Route path="/galeria" element={<GalleryPage />} />
-          <Route path="/payment-success" element={<PaymentSuccess />} />
-          <Route path="/payment-error" element={<PaymentError />} />
+          <Route path="/payment/success" element={<PaymentSuccess />} />
+          <Route path="/payment/error" element={<PaymentError />} />
         </Routes>
       </main>
       <Footer />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

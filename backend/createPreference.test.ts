@@ -1,4 +1,4 @@
-import { handler } from './createPreference';
+import { handler } from './src/createPreference';
 import { APIGatewayProxyEvent, Context , APIGatewayProxyResult} from 'aws-lambda';
 import * as MercadoPago from 'mercadopago';
 import {describe, expect, test, it} from '@jest/globals';
